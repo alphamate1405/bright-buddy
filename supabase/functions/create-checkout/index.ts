@@ -35,29 +35,27 @@ serve(async (req) => {
       ? Deno.env.get('DODO_YEARLY_PRODUCT_ID') || 'pdt_torch_yearly'
       : Deno.env.get('DODO_MONTHLY_PRODUCT_ID') || 'pdt_torch_monthly';
 
-    // Create checkout session via Dodo API
-    const response = await fetch('https://api.dodopayments.com/subscriptions', {
+    // Determine environment - use test for development
+    const isTestMode = Deno.env.get('DODO_ENVIRONMENT') !== 'live_mode';
+    const baseUrl = isTestMode 
+      ? 'https://test.dodopayments.com' 
+      : 'https://api.dodopayments.com';
+
+    // Create checkout session via Dodo API (using checkout sessions endpoint)
+    const response = await fetch(`${baseUrl}/checkout_sessions`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        billing: {
-          city: "",
-          country: "US",
-          state: "",
-          street: "",
-          zipcode: "",
-        },
-        customer: {
-          email: "",
-          name: "",
-        },
-        product_id: productId,
-        quantity: 1,
+        product_cart: [
+          {
+            product_id: productId,
+            quantity: 1,
+          }
+        ],
         return_url: returnUrl,
-        payment_link: true,
         metadata: {
           plan: plan,
           source: 'torch_app',
