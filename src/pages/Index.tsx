@@ -17,6 +17,7 @@ const Index = () => {
     strobeSpeed,
     setStrobeSpeed,
     isBlinking,
+    isNativeAvailable,
   } = useTorch();
 
   return (
@@ -113,7 +114,9 @@ const Index = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          For full flashlight control on mobile, install as an app via your browser menu
+          {isNativeAvailable 
+            ? '✓ Native flashlight connected' 
+            : 'For full flashlight control on mobile, install as an app via your browser menu'}
         </motion.p>
       </div>
     </div>
