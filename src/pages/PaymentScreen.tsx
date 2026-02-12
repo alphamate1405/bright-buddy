@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Flashlight, Sun, Zap, AlertTriangle, Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,11 +15,11 @@ const features = [
   { icon: AlertTriangle, text: "SOS emergency signal" },
 ];
 
-export const PaymentScreen = ({ onSubscribe, isLoading }: PaymentScreenProps) => {
+export const PaymentScreen = React.forwardRef<HTMLDivElement, PaymentScreenProps>(({ onSubscribe, isLoading }, ref) => {
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "yearly">("yearly");
 
   return (
-    <div className="relative min-h-screen bg-background overflow-hidden">
+    <div ref={ref} className="relative min-h-screen bg-background overflow-hidden">
       {/* Background glow */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -189,4 +189,6 @@ export const PaymentScreen = ({ onSubscribe, isLoading }: PaymentScreenProps) =>
       </div>
     </div>
   );
-};
+});
+
+PaymentScreen.displayName = "PaymentScreen";

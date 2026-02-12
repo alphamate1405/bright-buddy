@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { Flashlight, Sun, Zap, AlertTriangle, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,9 +30,9 @@ const features = [
   },
 ];
 
-export const SplashScreen = ({ onContinue }: SplashScreenProps) => {
+export const SplashScreen = React.forwardRef<HTMLDivElement, SplashScreenProps>(({ onContinue }, ref) => {
   return (
-    <div className="relative min-h-screen bg-background overflow-hidden">
+    <div ref={ref} className="relative min-h-screen bg-background overflow-hidden">
       {/* Background glow effect */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -133,4 +134,6 @@ export const SplashScreen = ({ onContinue }: SplashScreenProps) => {
       </div>
     </div>
   );
-};
+});
+
+SplashScreen.displayName = "SplashScreen";

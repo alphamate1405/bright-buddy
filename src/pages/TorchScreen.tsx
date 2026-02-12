@@ -1,3 +1,4 @@
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Flashlight } from "lucide-react";
 import { TorchButton } from "@/components/TorchButton";
@@ -6,7 +7,7 @@ import { ModeSelector } from "@/components/ModeSelector";
 import { StrobeSpeed } from "@/components/StrobeSpeed";
 import { useTorch } from "@/hooks/useTorch";
 
-export const TorchScreen = () => {
+export const TorchScreen = React.forwardRef<HTMLDivElement>((_, ref) => {
   const {
     isOn,
     toggle,
@@ -21,7 +22,7 @@ export const TorchScreen = () => {
   } = useTorch();
 
   return (
-    <div className="relative min-h-screen bg-background overflow-hidden">
+    <div ref={ref} className="relative min-h-screen bg-background overflow-hidden">
       {/* Ambient background glow when torch is on */}
       <AnimatePresence>
         {isOn && isBlinking && (
@@ -121,6 +122,8 @@ export const TorchScreen = () => {
       </div>
     </div>
   );
-};
+});
+
+TorchScreen.displayName = "TorchScreen";
 
 export default TorchScreen;
