@@ -42,7 +42,7 @@ serve(async (req) => {
       : 'https://api.dodopayments.com';
 
     // Create checkout session via Dodo API (using checkout sessions endpoint)
-    const response = await fetch(`${baseUrl}/checkout_sessions`, {
+    const response = await fetch(`${baseUrl}/checkouts`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -65,9 +65,9 @@ serve(async (req) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Dodo API error:', response.status, errorText);
+      console.error('Dodo API error:', response.status, 'URL:', `${baseUrl}/checkouts`, 'Product:', productId, 'Response:', errorText);
       return new Response(
-        JSON.stringify({ error: 'Failed to create checkout session', details: errorText }),
+        JSON.stringify({ error: 'Failed to create checkout session', details: errorText, productId, url: `${baseUrl}/checkouts` }),
         { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
