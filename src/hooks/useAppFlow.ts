@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -50,16 +50,15 @@ export const useAppFlow = () => {
   }, []);
 
   // Check for payment success on mount
-  useState(() => {
+  useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('payment') === 'success') {
       setIsSubscribed(true);
       setCurrentScreen('torch');
       toast.success('Payment successful! Enjoy your Torch Pro subscription.');
-      // Clean up URL
       window.history.replaceState({}, '', window.location.pathname);
     }
-  });
+  }, []);
 
   return {
     currentScreen,
